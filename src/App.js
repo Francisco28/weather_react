@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import Header from './components/Header';
 import Form from './components/Form';
-
+import Weather from './components/Weather';
 
 function App() {
 
@@ -14,6 +14,9 @@ function App() {
   
   //state to cosult
   const [ consult, saveConsult ] = useState(false);
+  
+  //state to result - save result of API
+  const [ result, saveResult ] = useState({});
 
   //state to search
   const { city, country } = search;
@@ -27,7 +30,10 @@ function App() {
 
             const response = await fetch(url);
             const result = await response.json();
-            console.log(result);
+            
+            //pass the result to hook saveResult
+            saveResult(result);
+            saveConsult(false);
           }
   
       }
@@ -51,7 +57,9 @@ function App() {
                       />
                   </div>
                   <div className="col m6 s12">
-                      2
+                      <Weather 
+                          result={result}
+                      />
                   </div>
                 </div>
             </div>
