@@ -1,11 +1,31 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import Header from './components/Header';
 import Form from './components/Form';
 
 
 function App() {
-  return (
 
+
+  //state of the Form
+  const [ search, saveSearch ] = useState({
+    city: '',
+    country: ''
+  });
+  
+  //state to cosult
+  const [ consult, saveConsult ] = useState(false);
+
+  //state to search
+  const { city, country } = search;
+
+  useEffect( () => {
+      const consultAPI = async () => {
+            
+      }
+      consultAPI();
+  }, [consult]);
+
+  return (
     <Fragment>
         <Header 
           title='Weather React App'
@@ -15,7 +35,11 @@ function App() {
             <div className="container">
                 <div className="row">
                   <div className="col m6 s12">
-                      <Form />
+                      <Form
+                        search={search}
+                        saveSearch={saveSearch}
+                        saveConsult={saveConsult}
+                      />
                   </div>
                   <div className="col m6 s12">
                       2
