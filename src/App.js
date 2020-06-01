@@ -2,6 +2,7 @@ import React, { Fragment, useState, useEffect } from 'react';
 import Header from './components/Header';
 import Form from './components/Form';
 import Weather from './components/Weather';
+import Error from './components/Error';
 
 function App() {
 
@@ -17,6 +18,9 @@ function App() {
   
   //state to result - save result of API
   const [ result, saveResult ] = useState({});
+
+  //state to Error
+  const [ error, saveError ] = useState(false);
 
   //state to search
   const { city, country } = search;
@@ -34,11 +38,29 @@ function App() {
             //pass the result to hook saveResult
             saveResult(result);
             saveConsult(false);
+
+            //detect if there was correct result in the query
+            if(result.cod === "404"){
+              saveError(true);
+            } else {
+              saveError(false);
+            }
           }
   
       }
       consultAPI();
   }, [consult]);
+
+
+  let component;
+  if(error) {
+    component = <Error message="There is not result" />
+  } else {
+    component = <Weather 
+                    result={result}
+                />
+  }
+
 
   return (
     <Fragment>
@@ -57,9 +79,7 @@ function App() {
                       />
                   </div>
                   <div className="col m6 s12">
-                      <Weather 
-                          result={result}
-                      />
+                      {component}
                   </div>
                 </div>
             </div>
